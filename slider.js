@@ -15,7 +15,7 @@ var Slider = function( slider, range, min, max ) {
 	this.initClick();
 
 	this.hMin.value(0);
-	this.hMin.previous_position = max.offset().left;
+	this.hMin.previous_position = min.offset().left;
 	this.hMax.value(this.slider.width());
 	this.hMax.previous_position = max.offset().left;
 }
