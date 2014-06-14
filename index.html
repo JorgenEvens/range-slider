@@ -1,0 +1,46 @@
+<html>
+	<head>
+		<title>Zepto Slider</title>
+		<style>
+		.range-slider { font-size: 1px; margin: 0; padding: 0; padding-left: 300; border: 1px solid black; border-radius: 100px; width: 0; height: 20px; position: relative; }
+		.range { background: blue; position: absolute; height: 22px; top: -1px; border: 1px solid white; left: 0; width: 100%; }
+		.handle { margin: 0; padding: 0; width: 10px; position: absolute; top: -3px; left: 0; height: 28px; border: none; background: black;}
+		</style>
+	</head>
+
+	<body>
+		<div>
+	 		<div class="value"></div>
+	 		<div class="range-slider">
+	 			<div class="range"></div>
+	 			<input type="button" class="min handle"/>
+		 		<input type="button" class="max handle"/> 
+	 		</div>
+	 	</div>
+
+	 	<button onclick="oSlider.setMin(20)">Set minimum to 20</button>
+	 	<button onclick="oSlider.setMax(30)">Set maximum to 30</button>
+	 	<button onclick="oSlider.setMax(oSlider.getMax()+10)">Increment maximum by 10</button>
+
+	 	<script src="http://cdnjs.cloudflare.com/ajax/libs/zepto/1.1.3/zepto.min.js"></script>
+	 	<script src="handle.js"></script>
+	 	<script src="slider.js"></script>
+	 	<script>
+	 		var label = $('.value'),
+	 			slider = $('.range-slider'),
+	 			ctl = {
+		 			min: slider.find('.handle.min'),
+		 			max: slider.find('.handle.max'),
+		 			slider: slider,
+		 			range: slider.find('.range')
+		 		},
+		 		oSlider = new Slider( ctl.slider, ctl.range, ctl.min, ctl.max );
+
+		 	oSlider.change(function(min,max){
+		 		label.text( 'Min: ' + min.value.toFixed(0) + ', Max: ' + max.value.toFixed(0) );
+		 	});
+
+			oSlider.maxValue = 100;
+	 	</script>
+	 </body>
+</html>
