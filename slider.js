@@ -15,7 +15,9 @@ var Slider = function( slider, range, min, max ) {
 	this.initClick();
 
 	this.hMin.value(0);
+	this.hMin.previous_position = max.offset().left;
 	this.hMax.value(this.slider.width());
+	this.hMax.previous_position = max.offset().left;
 }
 
 Slider.prototype = {
@@ -50,9 +52,7 @@ Slider.prototype = {
 					return me.hMin.value();
 				}
 			})
-			.change(function(){me.change()});
-
-		hMax.previous_position = 999999;
+			.change(function(){me.change()});		
 	},
 
 	/** @private */
@@ -67,12 +67,10 @@ Slider.prototype = {
 
 			if( x == min || x == max )
 				return;
-
-			if( x > min && x < max )
-				return;
-
-			if( x > max )
+			else if( x > max )
 				target = me.hMax;
+			else if( x > min && x < max && Math.abs( x - min ) > Math.abs( x - max ) )
+					target = me.hMax;
 
 			target.mousedown = true;
 			target._mousemove(e);
