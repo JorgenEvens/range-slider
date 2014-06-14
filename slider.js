@@ -14,9 +14,13 @@ var Slider = function( slider, range, min, max ) {
 	this.initMax();
 	this.initClick();
 
+	// jQuery compatibility
+	if( !this.slider.innerWidth )
+		this.slider.innerWidth = this.slider.width;
+
 	this.hMin.value(0);
 	this.hMin.previous_position = max.offset().left;
-	this.hMax.value(this.slider.width());
+	this.hMax.value(this.slider.innerWidth());
 	this.hMax.previous_position = max.offset().left;
 }
 
@@ -42,7 +46,7 @@ Slider.prototype = {
 	/** @private */
 	initMax: function() {
 		var me = this,
-			maxWidth = this.slider.width(),
+			maxWidth = this.slider.innerWidth(),
 
 			hMax = this.hMax = new Handle(this.max)
 			.validate(function(newPos,orig){
@@ -83,8 +87,8 @@ Slider.prototype = {
 		if( typeof v == 'function' )
 			return this.listeners.push(v);
 
-		var min = this.hMin.value() / this.slider.width(),
-			max = this.hMax.value() / this.slider.width();
+		var min = this.hMin.value() / this.slider.innerWidth(),
+			max = this.hMax.value() / this.slider.innerWidth();
 
 		min = { percentage: min, value: min*this.maxValue };
 		max = { percentage: max, value: max*this.maxValue };
@@ -101,13 +105,13 @@ Slider.prototype = {
 	/** @private */
 	_getValue: function( handle ) {
 		var v = handle.value();
-		return ( v / this.slider.width() ) * this.maxValue;
+		return ( v / this.slider.innerWidth() ) * this.maxValue;
 	},
 
 	/** @private */
 	_setValue: function( handle, v ) {
 		v /= this.maxValue;
-		v *= this.slider.width();
+		v *= this.slider.innerWidth();
 
 		handle.value( v );
 		return this;
