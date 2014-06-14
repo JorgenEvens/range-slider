@@ -1,3 +1,7 @@
+/**
+ * @constructor
+ * @export
+ */
 var Handle = function( self ){
 	this.previous_position = 0;
 	this.mousedown = false;
@@ -12,14 +16,19 @@ var Handle = function( self ){
 };
 
 Handle.prototype = {
+	/** @private */
 	validators: [],
 
+	/** @private */
 	listeners: [],
 
+	/** @export */
 	validate: function(v) { this.validators.push(v); return this; },
 
+	/** @export */
 	change: function(v) { this.listeners.push(v); return this; },
 
+	/** @export */
 	value: function(v) {
 		if( typeof v != 'undefined' ) {
 			v = Math.round(v);
@@ -31,6 +40,7 @@ Handle.prototype = {
 		return parseInt(this.self.css('left'));
 	},
 
+	/** @private */
 	_notifyChange: function() {
 		var i = null;
 
@@ -38,6 +48,7 @@ Handle.prototype = {
 			this.listeners[i]();
 	},
 
+	/** @private */
 	_setNewPosition: function( x, newPos ) {
 		var i = null,
 			old = this.value();
@@ -61,11 +72,13 @@ Handle.prototype = {
 		this._notifyChange();
 	},
 
+	/** @private */
 	_mousedown: function(e){
 		this.mousedown = true;
 		this.previous_position = e.pageX || e.clientX || e.x;
 	},
 
+	/** @private */
 	_mousemove: function(e){
 		if( !this.mousedown ) return;
 
@@ -77,6 +90,7 @@ Handle.prototype = {
 		this._setNewPosition( x, newPos );
 	},
 
+	/** @private */
 	_mouseup: function(e){
 		this.mousedown = false;
 	}

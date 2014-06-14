@@ -1,4 +1,7 @@
-
+/**
+ * @constructor
+ * @export
+ */
 var Slider = function( slider, range, min, max ) {
 	this.slider = slider;
 	this.min = min;
@@ -17,8 +20,10 @@ var Slider = function( slider, range, min, max ) {
 
 Slider.prototype = {
 
+	/** @private */
 	listeners: null,
 
+	/** @private */
 	initMin: function() {
 		var me = this,
 			hMin = this.hMin = new Handle(this.min)
@@ -32,6 +37,7 @@ Slider.prototype = {
 			.change(function(){me.change()});
 	},
 
+	/** @private */
 	initMax: function() {
 		var me = this,
 			maxWidth = this.slider.width(),
@@ -49,6 +55,7 @@ Slider.prototype = {
 		hMax.previous_position = 999999;
 	},
 
+	/** @private */
 	initClick: function() {
 		var me = this;
 
@@ -73,6 +80,7 @@ Slider.prototype = {
 		})
 	},
 
+	/** @export */
 	change: function( v ) {
 		if( typeof v == 'function' )
 			return this.listeners.push(v);
@@ -92,11 +100,13 @@ Slider.prototype = {
 			this.listeners[i](min, max);
 	},
 
+	/** @private */
 	_getValue: function( handle ) {
 		var v = handle.value();
 		return ( v / this.slider.width() ) * this.maxValue;
 	},
 
+	/** @private */
 	_setValue: function( handle, v ) {
 		v /= this.maxValue;
 		v *= this.slider.width();
@@ -105,18 +115,22 @@ Slider.prototype = {
 		return this;
 	},
 
+	/** @export */
 	getMin: function() {
 		return this._getValue( this.hMin );
 	},
 
+	/** @export */
 	setMin: function( v ) {
 		return this._setValue( this.hMin, v );
 	},
 
+	/** @export */
 	getMax: function() {
 		return this._getValue( this.hMax );
 	},
 
+	/** @export */
 	setMax: function( v ) {
 		return this._setValue( this.hMax, v );
 	}
